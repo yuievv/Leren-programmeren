@@ -1,45 +1,47 @@
 """
 Speelhal.py
 
-Berekenen de kosten van een dagje speelhal met de volgende producten:
-- Toegangstickets: € 7,45 per persoon, voor 5 personen
-- VIP-VR GameSeat: € 0,37 per persoon per 5 minuten, voor 45 minuten
-- Jij en 1 vriend trakteren, dus de kosten worden verdeeld over 2 personen
+Berekent de kosten van een dagje speelhal. De gebruiker voert zelf de
+aantallen en prijzen in. Prijzen worden in euro's ingevoerd, maar direct
+omgezet naar centen zodat er met hele getallen wordt gerekend
+in plaats van met floats.
 """
 
 from termcolor import colored
 
-# gegevens 
-aantal_personen = 5
-prijs_toegangsticket = 7.45     # euro p.p
+# gebruiker invoer
+aantal_personen = int(input("Met hoeveel personen gaan jullie? "))
+prijs_toegangsticket_euro = float(input("Wat kost 1 toegangsticket in euro's? "))
+prijs_toegangsticket_cent = round(prijs_toegangsticket_euro * 100)
 
-prijs_per_5min = 0.37           # euro p.p per 5 minuten
-duur_minuten = 45
+prijs_per_5min_euro = float(input("Wat kost de VIP-VR GameSeat per 5 minuten in euro's? "))
+prijs_per_5min_cent = round(prijs_per_5min_euro * 100)
+duur_minuten = int(input("Hoeveel minuten willen jullie in de VIP-VR GameSeat? "))
 aantal_periodes = duur_minuten // 5     # aantal periodes van 5 minuten
 
-aantal_trakteerders = 2         # jij en 1 vriend
+aantal_trakteerders = int(input("Met hoeveel personen trakteren jullie samen? "))
 
-# berekening
-totaal_toegang = aantal_personen * prijs_toegangsticket
-prijs_vip_per_persoon = aantal_periodes * prijs_per_5min
-totaal_vip = aantal_personen * prijs_vip_per_persoon
+# berekening in centen 
+totaal_toegang_cent = aantal_personen * prijs_toegangsticket_cent
+prijs_vip_per_persoon_cent = aantal_periodes * prijs_per_5min_cent
+totaal_vip_cent = aantal_personen * prijs_vip_per_persoon_cent
 
-totale_kosten = totaal_toegang + totaal_vip
+totale_kosten_cent = totaal_toegang_cent + totaal_vip_cent
 
 # verdeling van de kosten over het aantal trakteerders
-kosten_per_trakteerder = totale_kosten / aantal_trakteerders
+kosten_per_trakteerder_cent = round(totale_kosten_cent / aantal_trakteerders)
 
 # resultaat tonen
 print(". ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ Speelhal Dag ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁..")
-print(f"Toegang ({colored(str(aantal_personen), 'yellow')} personen)             : € {colored(f'{totaal_toegang:.2f}', 'light_blue')}")
-print(f"VIP-VR GameSeat ({colored(str(aantal_personen), 'yellow')} personen)     : € {colored(f'{totaal_vip:.2f}', 'light_blue')}")
-print(f"  ({colored(str(aantal_periodes), 'light_red')} x 5 min x € {colored(f'{prijs_per_5min:.2f}', 'light_blue')} p.p. = € {colored(f'{prijs_vip_per_persoon:.2f}', 'light_blue')} p.p.)")
+print(f"Toegang ({colored(str(aantal_personen), 'yellow')} personen)             : € {colored(f'{totaal_toegang_cent / 100:.2f}', 'light_blue')}")
+print(f"VIP-VR GameSeat ({colored(str(aantal_personen), 'yellow')} personen)     : € {colored(f'{totaal_vip_cent / 100:.2f}', 'light_blue')}")
+print(f"  ({colored(str(aantal_periodes), 'light_red')} x 5 min x € {colored(f'{prijs_per_5min_cent / 100:.2f}', 'light_blue')} p.p. = € {colored(f'{prijs_vip_per_persoon_cent / 100:.2f}', 'light_blue')} p.p.)")
 print("──────────────────────♡──────────────────────")
-print(f"Totale kosten                    : € {colored(f'{totale_kosten:.2f}', 'light_blue')}")
+print(f"Totale kosten                    : € {colored(f'{totale_kosten_cent / 100:.2f}', 'light_blue')}")
 print("──────────────────────♡──────────────────────")
-print(f"Te betalen per trakteerder ({colored(str(aantal_trakteerders), 'yellow')}x)  : € {colored(f'{kosten_per_trakteerder:.2f}', 'light_blue')}")
+print(f"Te betalen per trakteerder ({colored(str(aantal_trakteerders), 'yellow')}x)  : € {colored(f'{kosten_per_trakteerder_cent / 100:.2f}', 'light_blue')}")
 
 print()
 print(f"Dit geweldige dagje-uit met {colored(str(aantal_personen), 'yellow')} mensen in de Speelhal "
-      f"met {colored(str(duur_minuten), 'light_red')} minuten VR kost je maar {colored(f'{kosten_per_trakteerder:.2f}', 'light_blue')} "
+      f"met {colored(str(duur_minuten), 'light_red')} minuten VR kost je maar {colored(f'{kosten_per_trakteerder_cent / 100:.2f}', 'light_blue')} "
       f"euro per persoon voor {colored(str(aantal_trakteerders), 'yellow')} mensen")
