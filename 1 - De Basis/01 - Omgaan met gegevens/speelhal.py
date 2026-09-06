@@ -36,3 +36,8 @@ print("──────────────────────♡─�
 print(f"Totale kosten                    : € {totale_kosten:.2f}")
 print("──────────────────────♡──────────────────────")
 print(f"Te betalen per trakteerder ({aantal_trakteerders}x)  : € {kosten_per_trakteerder:.2f}")
+
+print()
+print(f"Dit geweldige dagje-uit met {aantal_personen} mensen in de Speelhal "
+      f"met {duur_minuten} minuten VR kost je maar {kosten_per_trakteerder:.2f} "
+      f"euro per persoon voor {aantal_trakteerders} mensen")
