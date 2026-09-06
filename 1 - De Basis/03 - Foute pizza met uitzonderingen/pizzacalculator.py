@@ -1,7 +1,7 @@
 
 small_prijs = 6.99
 medium_prijs = 8.25
-large_prijs = 10.89
+large_prijs = 11.10
 
 def vraag_aantal_pizza(afmeting):
     while True:
