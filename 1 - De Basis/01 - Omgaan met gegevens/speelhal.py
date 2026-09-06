@@ -7,6 +7,8 @@ Berekenen de kosten van een dagje speelhal met de volgende producten:
 - Jij en 1 vriend trakteren, dus de kosten worden verdeeld over 2 personen
 """
 
+from termcolor import colored
+
 # gegevens 
 aantal_personen = 5
 prijs_toegangsticket = 7.45     # euro p.p
@@ -29,15 +31,15 @@ kosten_per_trakteerder = totale_kosten / aantal_trakteerders
 
 # resultaat tonen
 print(". ݁₊ ⊹ . ݁ ⟡ ݁ . ⊹ Speelhal Dag ⊹ . ݁ ⟡ ݁ . ⊹ ₊ ݁..")
-print(f"Toegang ({aantal_personen} personen)             : € {totaal_toegang:.2f}")
-print(f"VIP-VR GameSeat ({aantal_personen} personen)     : € {totaal_vip:.2f}")
-print(f"  ({aantal_periodes} x 5 min x € {prijs_per_5min:.2f} p.p. = € {prijs_vip_per_persoon:.2f} p.p.)")
+print(f"Toegang ({colored(str(aantal_personen), 'yellow')} personen)             : € {colored(f'{totaal_toegang:.2f}', 'light_blue')}")
+print(f"VIP-VR GameSeat ({colored(str(aantal_personen), 'yellow')} personen)     : € {colored(f'{totaal_vip:.2f}', 'light_blue')}")
+print(f"  ({colored(str(aantal_periodes), 'light_red')} x 5 min x € {colored(f'{prijs_per_5min:.2f}', 'light_blue')} p.p. = € {colored(f'{prijs_vip_per_persoon:.2f}', 'light_blue')} p.p.)")
 print("──────────────────────♡──────────────────────")
-print(f"Totale kosten                    : € {totale_kosten:.2f}")
+print(f"Totale kosten                    : € {colored(f'{totale_kosten:.2f}', 'light_blue')}")
 print("──────────────────────♡──────────────────────")
-print(f"Te betalen per trakteerder ({aantal_trakteerders}x)  : € {kosten_per_trakteerder:.2f}")
+print(f"Te betalen per trakteerder ({colored(str(aantal_trakteerders), 'yellow')}x)  : € {colored(f'{kosten_per_trakteerder:.2f}', 'light_blue')}")
 
 print()
-print(f"Dit geweldige dagje-uit met {aantal_personen} mensen in de Speelhal "
-      f"met {duur_minuten} minuten VR kost je maar {kosten_per_trakteerder:.2f} "
-      f"euro per persoon voor {aantal_trakteerders} mensen")
+print(f"Dit geweldige dagje-uit met {colored(str(aantal_personen), 'yellow')} mensen in de Speelhal "
+      f"met {colored(str(duur_minuten), 'light_red')} minuten VR kost je maar {colored(f'{kosten_per_trakteerder:.2f}', 'light_blue')} "
+      f"euro per persoon voor {colored(str(aantal_trakteerders), 'yellow')} mensen")
