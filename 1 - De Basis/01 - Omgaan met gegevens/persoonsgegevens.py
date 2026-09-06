@@ -1,0 +1,15 @@
+naam = input("Wat is je naam? ")
+leeftijd = int(input("Hoe oud ben je? "))
+geslacht = input("Ben je A) een jongen of B) een meisje? ").lower()
+favoriete_kleur = input("Wat is je favoriete kleur? ")
+favoriete_getal = int(input("Wat is je favoriete getal? "))
+verschil_leeftijd_getal = abs(leeftijd - favoriete_getal)
+bezittelijk_voornaamwoord = 'haar' if geslacht == 'b' else 'zijn'
+
+print("")
+print(". ݁₊ ⊹ . ݁ ⟡ ݁ Persoonsgegevens ݁ ⟡ ݁ . ⊹ ₊ ݁.")
+print("Mag ik je voorstellen aan", naam)
+print(f"{bezittelijk_voornaamwoord.capitalize()} leeftijd is:", leeftijd)
+print(f"{naam}'s favoriete kleur is:", favoriete_kleur)
+print(f"Het verschil tussen {bezittelijk_voornaamwoord} leeftijd en {favoriete_getal} is:", verschil_leeftijd_getal)
+print("——————————————————————————————————————————————")
