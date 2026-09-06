@@ -33,3 +33,8 @@ print(f"Subtotaal          : € {subtotaal:.2f}")
 print(f"Korting ({aantal_kortingsbonnen} bonnen) : - € {totaal_korting:.2f}")
 print("—————————————————————————————————")
 print(f"Te betalen         : € {te_betalen:.2f}")
+
+print()
+print(f"De feestlunch kost je bij de bakker {te_betalen:.2f} euro voor de "
+      f"{aantal_croissants} croissantjes en de {aantal_stokbroden} stokbroden "
+      f"als de {aantal_kortingsbonnen} kortingsbonnen nog geldig zijn!")
