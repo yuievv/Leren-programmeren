@@ -13,25 +13,18 @@ def combat(enemy_name, enemy_attack, enemy_defense, enemy_health):
     global player_health
     
     print(f'Je loopt tegen een {enemy_name} aan.')
-    
-    # Bepaal de schade die de vijand doet
     enemy_hit_damage = (enemy_attack - player_defense)
     
     if enemy_hit_damage <= 0:
         print(f'Jij hebt een te goede verdediging voor de {enemy_name}, hij kan je geen schade doen.')
         return player_health
     else:
-        # Bereken hoe vaak de vijand moet slaan om de speler te verslaan
         enemy_attack_amount = math.ceil(player_health / enemy_hit_damage)
-        
-        # Bepaal de schade die de speler doet
         player_hit_damage = (player_attack - enemy_defense)
-        # Bereken hoe vaak de speler moet slaan om de vijand te verslaan
         player_attack_amount = math.ceil(enemy_health / player_hit_damage)
 
         if player_attack_amount < enemy_attack_amount:
             print(f'In {player_attack_amount} rondes versla je de {enemy_name}.')
-            # Bereken de nieuwe health van de speler
             player_health = player_health - (player_attack_amount * enemy_hit_damage)
             print(f'Je health is nu {player_health}.')
             return player_health
@@ -49,9 +42,14 @@ time.sleep(1)
 
 # === [Kamer 7] === #
 print('Je loopt door de volgende deur en komt in een kleine kamer.')
-print('Op de grond zie je iets glinsteren. Het is een rupee!')
-player_rupees += 1
-print(f'Je pakt de rupee op. Je hebt nu {player_rupees} rupee(s).')
+# Wizard betovering: 1 op 10 kans dat er geen rupee ligt
+if random.randint(1, 10) == 1:
+    print('De kamer is betoverd door een wizard. Er ligt geen rupee!')
+else:
+    print('Op de grond zie je iets glinsteren. Het is een rupee!')
+    player_rupees += 1
+    print(f'Je pakt de rupee op. Je hebt nu {player_rupees} rupee(s).')
+
 print('Voor je zie je twee deuren:')
 print('1. Ga naar het standbeeld (Kamer 2)')
 print('2. Ga direct naar de gokmachine (Kamer 8)')
@@ -59,11 +57,11 @@ keuze7 = input('Welke deur kies je? (typ 1 of 2): ')
 print('')
 time.sleep(1)
 
-# === [Keuze vanuit Kamer 7] === #
+# === [Vertakking uit Kamer 7] === #
 if keuze7 == '1':
     # === [Kamer 2] === #
     print('Je stapt door de deur heen en je ziet een standbeeld voor je.')
-    print('Het standbeeld heeft een sleutel vast.')
+    print('Het standbeeld heeft een munt vast.')
     print('Op zijn borst zit een numpad met de toetsen 9 t/m 0.')
 
     # Genereer een willekeurige som
@@ -71,7 +69,6 @@ if keuze7 == '1':
     num2 = random.randint(-5, 75)
     operator = random.choice(['+', '-', '*'])
 
-    # Bereken het juiste antwoord
     if operator == '+':
         correct_answer = num1 + num2
     elif operator == '-':
@@ -83,8 +80,9 @@ if keuze7 == '1':
     antwoord = int(input('Wat toets je in?'))
 
     if antwoord == correct_answer:
-        print('Het standbeeld laat de sleutel vallen en je pakt het op')
-        has_key = True
+        print('Het standbeeld laat de munt vallen en je pakt hem op.')
+        player_rupees += 1
+        print(f'Je hebt nu {player_rupees} rupee(s).')
     else:
         print('Er gebeurt niets....')
 
@@ -103,10 +101,17 @@ if keuze7 == '1':
         print('Achter de zombie zie je een deur en je gaat erdoorheen.')
         print('')
         time.sleep(1)
-        # Na kamer 6 ga je automatisch door naar kamer 8 (code staat later)
+        # Na kamer 6 ga je automatisch door naar kamer 3 (de winkel)
+        # (De code voor kamer 3 staat onderaan)
+    else:
+        # Als speler voor 8 kiest in kamer 2, ga je naar kamer 8
+        # We vallen direct door naar de code van kamer 8 (later in het script)
+        pass
 
 # === [Kamer 8 - Gokmachine] === #
-# Deze code wordt altijd bereikt (via directe keuze uit 7, via keuze 8 uit 2, of na kamer 6)
+# Deze code wordt bereikt als:
+# - Speler koos '2' in kamer 7
+# - OF speler koos '8' in kamer 2
 print('Je komt in een kamer met een mysterieuze gokmachine.')
 print('De machine heeft twee dobbelstenen en een scherm met "GOKKEN" erop.')
 gok_keuze = input('Wil je de gokmachine gebruiken? (ja/nee): ').lower()
@@ -133,8 +138,23 @@ if gok_keuze == 'ja':
 else:
     print('Je besluit de gokmachine links te laten liggen.')
 
-print('Achter de gokmachine zie je een deur naar de handelaar (kamer 3).')
+print('Achter de gokmachine zie je een deur naar een betoverde kamer (kamer 9).')
 print('Je loopt erdoorheen.')
+print('')
+time.sleep(1)
+
+# === [Kamer 9 - Betovering] === #
+print('Je stapt een vreemde kamer binnen. De lucht tintelt van magie.')
+# Random betovering: +1 defence OF +2 health
+betovering = random.choice(['defence', 'health'])
+if betovering == 'defence':
+    player_defense += 1
+    print('Een magisch schild omhult je! Je verdediging is nu +1.')
+else:
+    player_health += 2
+    print('Je voelt je energie stromen! Je health is nu +2.')
+
+print('Je ziet een deur naar de winkel en je stapt erdoorheen.')
 print('')
 time.sleep(1)
 
@@ -144,11 +164,12 @@ print(f'De goblin kijkt je aan en zegt: "Ik voel dat je {player_rupees} rupee(s)
 print('Hij verkoopt de volgende spullen voor 1 rupee per stuk:')
 print('1. Schild (+1 verdediging)')
 print('2. Zwaard (+2 aanval)')
-print('3. Stoppen met kopen')
+print('3. Sleutel (opent de schatkist)')
+print('4. Stoppen met kopen')
 
 # Shop loop: blijf kopen zolang de speler wil en genoeg rupees heeft
 while player_rupees > 0:
-    keuze_shop = input('Wat wil je kopen? (typ 1, 2 of 3): ')
+    keuze_shop = input('Wat wil je kopen? (typ 1, 2, 3 of 4): ')
     
     if keuze_shop == '1' and player_rupees >= 1:
         item = 'schild'
@@ -162,10 +183,15 @@ while player_rupees > 0:
         player_rupees -= 1
         print('Je koopt een zwaard en voelt je een stuk sterker.')
         print(f'Je hebt nu {player_rupees} rupee(s) over.')
-    elif keuze_shop == '3':
+    elif keuze_shop == '3' and player_rupees >= 1:
+        has_key = True
+        player_rupees -= 1
+        print('Je koopt een glimmende sleutel voor de schatkist!')
+        print(f'Je hebt nu {player_rupees} rupee(s) over.')
+    elif keuze_shop == '4':
         print('Je besluit te stoppen met kopen en loopt door.')
         break
-    elif (keuze_shop == '1' or keuze_shop == '2') and player_rupees < 1:
+    elif (keuze_shop == '1' or keuze_shop == '2' or keuze_shop == '3') and player_rupees < 1:
         print('Je hebt niet genoeg rupees om dit te kopen.')
         break
     else:
