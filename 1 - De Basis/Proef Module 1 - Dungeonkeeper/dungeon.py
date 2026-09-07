@@ -4,7 +4,9 @@ import time, math, random
 player_attack = 1
 player_defense = 0
 player_health = 3
+player_rupees = 0
 has_key = False
+item = None  # Wordt gevuld in de winkel
 
 # === [Herbruikbare gevechtsfunctie] === #
 def combat(enemy_name, enemy_attack, enemy_defense, enemy_health):
@@ -45,6 +47,14 @@ print('Je ziet een deur voor je.')
 print('')
 time.sleep(1)
 
+# === [kamer 7] === #
+print('Je loopt door de volgende deur en komt in een kleine kamer.')
+print('Op de grond zie je iets glinsteren. Het is een rupee!')
+player_rupees += 1
+print(f'Je pakt de rupee op. Je hebt nu {player_rupees} rupee(s).')
+print('')
+time.sleep(1)
+
 # === [kamer 2] === #
 print('Je stapt door de deur heen en je ziet een standbeeld voor je.')
 print('Het standbeeld heeft een sleutel vast.')
@@ -74,12 +84,10 @@ else:
 
 print('Je ziet achter het standbeeld twee deuren.')
 print('Aan de linkerkant zie je een donkere deur (kamer 6).')
-print('Recht vooruit zie je een deur naar een lange hal (kamer 3).')
+print('Recht vooruit zie je een deur naar de winkel (kamer 3).')
 keuze = input('Welke kamer kies je? (typ 6 of 3): ')
 print('')
 time.sleep(1)
-
-# === [Keuze vertakking] === #
 
 # === [KAMER 6] === #
 if keuze == '6':
@@ -90,26 +98,43 @@ if keuze == '6':
     print('')
     time.sleep(1)
 
-# === [KAMER 3] === #
-# Deze kamer wordt dus bereikt via keuze '3' OF na afloop van kamer '6'
-print('Je stapt de lange kamer binnen.')
-print('Deze kamer heeft twee ingangen en is langwerpig.')
-# Kies willekeurig tussen een schild of een zwaard
-item = random.choice(['schild', 'zwaard'])
+# === [KAMER 3 - Winkel] === #
+print('Je stapt de kamer binnen waar een handelaar (goblin) achter een toonbank staat.')
+print(f'Je hebt {player_rupees} rupee(s) op zak.')
+print('Hij verkoopt de volgende spullen voor 1 rupee per stuk:')
+print('1. Schild (+1 verdediging)')
+print('2. Zwaard (+2 aanval)')
+print('3. Niets kopen')
 
-if item == 'schild':
+keuze_shop = input('Wat wil je kopen? (typ 1, 2 of 3): ')
+
+if keuze_shop == '1' and player_rupees >= 1:
+    item = 'schild'
     player_defense += 1
-elif item == 'zwaard':
+    player_rupees -= 1
+    print('Je koopt een schild en voelt je meteen veiliger.')
+elif keuze_shop == '2' and player_rupees >= 1:
+    item = 'zwaard'
     player_attack += 2
+    player_rupees -= 1
+    print('Je koopt een zwaard en voelt je een stuk sterker.')
+elif keuze_shop == '3':
+    print('Je besluit niets te kopen en loopt door.')
+elif (keuze_shop == '1' or keuze_shop == '2') and player_rupees < 1:
+    print('Je hebt niet genoeg rupees om dit te kopen, je koopt niets.')
+else:
+    print('Ongeldige keuze, je koopt niets.')
 
-print(f'In deze kamer staat een tafel met daarop een {item}.')
-print(f'Je pakt het {item} op en houd het bij je.')
 print('Op naar de volgende deur.')
 print('')
 time.sleep(1)
 
 # === [kamer 4] === #
-print(f'Dapper met je nieuwe {item} loop je de kamer binnen.')
+if item:
+    print(f'Dapper met je nieuwe {item} loop je de kamer binnen.')
+else:
+    print('Dapper, maar zonder wapens of pantser loop je de kamer binnen.')
+
 # Nieuwe, sterkere vijand (attack: 2, defense: 0, health: 3)
 combat("vijand", 2, 0, 3)
 print('')
