@@ -36,13 +36,11 @@ def combat(enemy_name, enemy_attack, enemy_defense, enemy_health):
 # === [Kamer 1] === #
 print('Door de twee grote deuren loop je een gang binnen.')
 print('Het ruikt hier muf en vochtig.')
-print('Je ziet een deur voor je.')
-print('')
+print('Je ziet een deur voor je.\n')
 time.sleep(1)
 
 # === [Kamer 7] === #
 print('Je loopt door de volgende deur en komt in een kleine kamer.')
-# Wizard betovering: 1 op 10 kans dat er geen rupee ligt
 if random.randint(1, 10) == 1:
     print('De kamer is betoverd door een wizard. Er ligt geen rupee!')
 else:
@@ -54,17 +52,15 @@ print('Voor je zie je twee deuren:')
 print('1. Ga naar het standbeeld (Kamer 2)')
 print('2. Ga direct naar de gokmachine (Kamer 8)')
 keuze7 = input('Welke deur kies je? (typ 1 of 2): ')
-print('')
+print()
 time.sleep(1)
 
-# === [Vertakking uit Kamer 7] === #
+# === [Vertakking 1: Kamer 2] === #
 if keuze7 == '1':
-    # === [Kamer 2] === #
     print('Je stapt door de deur heen en je ziet een standbeeld voor je.')
     print('Het standbeeld heeft een munt vast.')
     print('Op zijn borst zit een numpad met de toetsen 9 t/m 0.')
 
-    # Genereer een willekeurige som
     num1 = random.randint(10, 25)
     num2 = random.randint(-5, 75)
     operator = random.choice(['+', '-', '*'])
@@ -73,7 +69,7 @@ if keuze7 == '1':
         correct_answer = num1 + num2
     elif operator == '-':
         correct_answer = num1 - num2
-    else:  # operator == '*'
+    else:
         correct_answer = num1 * num2
 
     print(f'Daarboven zie je een som staan {num1}{operator}{num2}=?')
@@ -90,75 +86,97 @@ if keuze7 == '1':
     print('Aan de linkerkant zie je een donkere deur (kamer 6).')
     print('Recht vooruit zie je een deur naar de gokmachine (kamer 8).')
     keuze2 = input('Welke kamer kies je? (typ 6 of 8): ')
-    print('')
+    print()
     time.sleep(1)
 
     # === [Kamer 6] === #
     if keuze2 == '6':
         print('Je duwt de deur open en stapt een nieuwe, muffe kamer binnen.')
-        # De zombie in kamer 6
         combat("zombie", 1, 0, 2)
-        print('Achter de zombie zie je een deur en je gaat erdoorheen.')
-        print('')
+
+        print('Achter de zombie zie je twee deuren.')
+        print('1. Naar de gokmachine (Kamer 8)')
+        print('2. Direct naar de winkel (Kamer 3)')
+        keuze6 = input('Welke deur kies je? (typ 1 of 2): ')
+        print()
         time.sleep(1)
-        # Na kamer 6 ga je automatisch door naar kamer 3 (de winkel)
-        # (De code voor kamer 3 staat onderaan)
-    else:
-        # Als speler voor 8 kiest in kamer 2, ga je naar kamer 8
-        # We vallen direct door naar de code van kamer 8 (later in het script)
-        pass
+
+        if keuze6 == '2':
+            # Direct naar Kamer 3
+            ga_naar_kamer_3 = True
+        else:
+            # Ga naar Kamer 8 (code komt later)
+            ga_naar_kamer_3 = False
+            # We moeten door naar Kamer 8. Laten we een variabele gebruiken.
+            ga_naar_kamer_8 = True
+
+    else: # Keuze2 == '8'
+        ga_naar_kamer_3 = False
+        ga_naar_kamer_8 = True
+
+else: # Keuze7 == '2'
+    ga_naar_kamer_3 = False
+    ga_naar_kamer_8 = True
+
 
 # === [Kamer 8 - Gokmachine] === #
-# Deze code wordt bereikt als:
-# - Speler koos '2' in kamer 7
-# - OF speler koos '8' in kamer 2
-print('Je komt in een kamer met een mysterieuze gokmachine.')
-print('De machine heeft twee dobbelstenen en een scherm met "GOKKEN" erop.')
-gok_keuze = input('Wil je de gokmachine gebruiken? (ja/nee): ').lower()
+# Alleen bereiken als ga_naar_kamer_8 True is
+if ga_naar_kamer_8:
+    print('Je komt in een kamer met een mysterieuze gokmachine.')
+    print('De machine heeft twee dobbelstenen en een scherm met "GOKKEN" erop.')
+    gok_keuze = input('Wil je de gokmachine gebruiken? (ja/nee): ').lower()
 
-if gok_keuze == 'ja':
-    dobbel1 = random.randint(1, 6)
-    dobbel2 = random.randint(1, 6)
-    totaal = dobbel1 + dobbel2
-    print(f'De dobbelstenen rollen: {dobbel1} en {dobbel2}. Totaal: {totaal}.')
-    
-    if totaal > 7:
-        player_rupees *= 2
-        print(f'Geluk! Je rupees worden verdubbeld. Je hebt nu {player_rupees} rupees.')
-    elif totaal < 7:
-        player_health -= 1
-        print(f'Pech! Je verliest 1 health. Je hebt nu {player_health} health.')
-        if player_health <= 0:
-            print('Je health is 0. Je verliest het spel!')
-            exit()
-    else:  # totaal == 7
-        player_rupees += 1
-        player_health += 4
-        print(f'Jackpot! Je krijgt 1 rupee en 4 health. Je hebt nu {player_rupees} rupees en {player_health} health.')
-else:
-    print('Je besluit de gokmachine links te laten liggen.')
+    if gok_keuze == 'ja':
+        dobbel1 = random.randint(1, 6)
+        dobbel2 = random.randint(1, 6)
+        totaal = dobbel1 + dobbel2
+        print(f'De dobbelstenen rollen: {dobbel1} en {dobbel2}. Totaal: {totaal}.')
+        
+        if totaal > 7:
+            player_rupees *= 2
+            print(f'Geluk! Je rupees worden verdubbeld. Je hebt nu {player_rupees} rupees.')
+        elif totaal < 7:
+            player_health -= 1
+            print(f'Pech! Je verliest 1 health. Je hebt nu {player_health} health.')
+            if player_health <= 0:
+                print('Je health is 0. Je verliest het spel!')
+                exit()
+        else:  # totaal == 7
+            player_rupees += 1
+            player_health += 4
+            print(f'Jackpot! Je krijgt 1 rupee en 4 health. Je hebt nu {player_rupees} rupees en {player_health} health.')
+    else:
+        print('Je besluit de gokmachine links te laten liggen.')
 
-print('Achter de gokmachine zie je een deur naar een betoverde kamer (kamer 9).')
-print('Je loopt erdoorheen.')
-print('')
-time.sleep(1)
+    print('Achter de gokmachine zie je twee deuren.')
+    print('1. Naar de betoverde kamer (Kamer 9)')
+    print('2. Direct naar de winkel (Kamer 3)')
+    keuze8 = input('Welke deur kies je? (typ 1 of 2): ')
+    print()
+    time.sleep(1)
 
-# === [Kamer 9 - Betovering] === #
-print('Je stapt een vreemde kamer binnen. De lucht tintelt van magie.')
-# Random betovering: +1 defence OF +2 health
-betovering = random.choice(['defence', 'health'])
-if betovering == 'defence':
-    player_defense += 1
-    print('Een magisch schild omhult je! Je verdediging is nu +1.')
-else:
-    player_health += 2
-    print('Je voelt je energie stromen! Je health is nu +2.')
+    if keuze8 == '2':
+        ga_naar_kamer_3 = True
+    else:
+        ga_naar_kamer_3 = False
+        # Ga naar Kamer 9
 
-print('Je ziet een deur naar de winkel en je stapt erdoorheen.')
-print('')
-time.sleep(1)
+        # === [Kamer 9 - Betovering] === #
+        print('Je stapt een vreemde kamer binnen. De lucht tintelt van magie.')
+        betovering = random.choice(['defence', 'health'])
+        if betovering == 'defence':
+            player_defense += 1
+            print('Een magisch schild omhult je! Je verdediging is nu +1.')
+        else:
+            player_health += 2
+            print('Je voelt je energie stromen! Je health is nu +2.')
+        
+        # Na Kamer 9 ga je automatisch naar Kamer 3
+        ga_naar_kamer_3 = True
+
 
 # === [Kamer 3 - Winkel] === #
+# Deze code wordt altijd bereikt
 print('Je stapt de kamer binnen waar een handelaar (goblin) achter een toonbank staat.')
 print(f'De goblin kijkt je aan en zegt: "Ik voel dat je {player_rupees} rupee(s) bij je hebt!"')
 print('Hij verkoopt de volgende spullen voor 1 rupee per stuk:')
@@ -167,7 +185,6 @@ print('2. Zwaard (+2 aanval)')
 print('3. Sleutel (opent de schatkist)')
 print('4. Stoppen met kopen')
 
-# Shop loop: blijf kopen zolang de speler wil en genoeg rupees heeft
 while player_rupees > 0:
     keuze_shop = input('Wat wil je kopen? (typ 1, 2, 3 of 4): ')
     
@@ -197,12 +214,11 @@ while player_rupees > 0:
     else:
         print('Ongeldige keuze, probeer opnieuw.')
 
-# Als de speler geen rupees meer heeft, is de shop automatisch voorbij
 if player_rupees == 0:
     print('Je hebt geen rupees meer om te kopen.')
 
 print('Op naar de volgende deur.')
-print('')
+print()
 time.sleep(1)
 
 # === [Kamer 4] === #
@@ -211,9 +227,8 @@ if item:
 else:
     print('Dapper, maar zonder wapens of pantser loop je de kamer binnen.')
 
-# Nieuwe, sterkere vijand (attack: 2, defense: 0, health: 3)
 combat("vijand", 2, 0, 3)
-print('')
+print()
 time.sleep(1)
 
 # === [Kamer 5] === #
