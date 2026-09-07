@@ -52,53 +52,65 @@ print('Je loopt door de volgende deur en komt in een kleine kamer.')
 print('Op de grond zie je iets glinsteren. Het is een rupee!')
 player_rupees += 1
 print(f'Je pakt de rupee op. Je hebt nu {player_rupees} rupee(s).')
+print('Voor je zie je twee deuren:')
+print('1. Ga naar het standbeeld (Kamer 2)')
+print('2. Ga direct naar de winkel (Kamer 3)')
+keuze7 = input('Welke deur kies je? (typ 2 of 3): ')
 print('')
 time.sleep(1)
 
-# === [kamer 2] === #
-print('Je stapt door de deur heen en je ziet een standbeeld voor je.')
-print('Het standbeeld heeft een sleutel vast.')
-print('Op zijn borst zit een numpad met de toetsen 9 t/m 0.')
+# === [Vertakking vanuit Kamer 7] === #
 
-# Genereer een willekeurige som
-num1 = random.randint(10, 25)
-num2 = random.randint(-5, 75)
-operator = random.choice(['+', '-', '*'])
+# === [KAMER 2] === #
+# Alleen als de speler voor kamer 2 heeft gekozen
+if keuze7 == '2':
+    print('Je stapt door de deur heen en je ziet een standbeeld voor je.')
+    print('Het standbeeld heeft een sleutel vast.')
+    print('Op zijn borst zit een numpad met de toetsen 9 t/m 0.')
 
-# Bereken het juiste antwoord
-if operator == '+':
-    correct_answer = num1 + num2
-elif operator == '-':
-    correct_answer = num1 - num2
-else:  # operator == '*'
-    correct_answer = num1 * num2
+    # Genereer een willekeurige som
+    num1 = random.randint(10, 25)
+    num2 = random.randint(-5, 75)
+    operator = random.choice(['+', '-', '*'])
 
-print(f'Daarboven zie je een som staan {num1}{operator}{num2}=?')
-antwoord = int(input('Wat toets je in?'))
+    # Bereken het juiste antwoord
+    if operator == '+':
+        correct_answer = num1 + num2
+    elif operator == '-':
+        correct_answer = num1 - num2
+    else:  # operator == '*'
+        correct_answer = num1 * num2
 
-if antwoord == correct_answer:
-    print('Het standbeeld laat de sleutel vallen en je pakt het op')
-    has_key = True
-else:
-    print('Er gebeurt niets....')
+    print(f'Daarboven zie je een som staan {num1}{operator}{num2}=?')
+    antwoord = int(input('Wat toets je in?'))
 
-print('Je ziet achter het standbeeld twee deuren.')
-print('Aan de linkerkant zie je een donkere deur (kamer 6).')
-print('Recht vooruit zie je een deur naar de winkel (kamer 3).')
-keuze = input('Welke kamer kies je? (typ 6 of 3): ')
-print('')
-time.sleep(1)
+    if antwoord == correct_answer:
+        print('Het standbeeld laat de sleutel vallen en je pakt het op')
+        has_key = True
+    else:
+        print('Er gebeurt niets....')
 
-# === [KAMER 6] === #
-if keuze == '6':
-    print('Je duwt de deur open en stapt een nieuwe, muffe kamer binnen.')
-    # De zombie in kamer 6
-    combat("zombie", 1, 0, 2)
-    print('Achter de zombie zie je een deur en je gaat erdoorheen.')
+    print('Je ziet achter het standbeeld twee deuren.')
+    print('Aan de linkerkant zie je een donkere deur (kamer 6).')
+    print('Recht vooruit zie je een deur naar de winkel (kamer 3).')
+    keuze2 = input('Welke kamer kies je? (typ 6 of 3): ')
     print('')
     time.sleep(1)
 
+    # === [KAMER 6] === #
+    # Alleen als de speler vanuit kamer 2 voor kamer 6 heeft gekozen
+    if keuze2 == '6':
+        print('Je duwt de deur open en stapt een nieuwe, muffe kamer binnen.')
+        # De zombie in kamer 6
+        combat("zombie", 1, 0, 2)
+        print('Achter de zombie zie je een deur en je gaat erdoorheen.')
+        print('')
+        time.sleep(1)
+        # Na kamer 6 ga je automatisch door naar kamer 3 (die hieronder staat)
+
 # === [KAMER 3 - Winkel] === #
+# Deze code wordt ALTIJD uitgevoerd, of je nu via kamer 7 direct kwam, 
+# via kamer 2 direct, of via kamer 2 -> kamer 6.
 print('Je stapt de kamer binnen waar een handelaar (goblin) achter een toonbank staat.')
 print(f'Je hebt {player_rupees} rupee(s) op zak.')
 print('Hij verkoopt de volgende spullen voor 1 rupee per stuk:')
