@@ -72,18 +72,28 @@ if antwoord == correct_answer:
 else:
     print('Er gebeurt niets....')
 
-print('Je ziet een deur achter het standbeeld.')
+print('Je ziet achter het standbeeld twee deuren.')
+print('Aan de linkerkant zie je een donkere deur (kamer 6).')
+print('Recht vooruit zie je een deur naar een lange hal (kamer 3).')
+keuze = input('Welke kamer kies je? (typ 6 of 3): ')
 print('')
 time.sleep(1)
 
-# === [kamer 6] === #
-print('Je duwt de deur open en stapt een nieuwe, muffe kamer binnen.')
-# De zombie is verplaatst naar kamer 6 (attack: 1, defense: 0, health: 2)
-combat("zombie", 1, 0, 2)
-print('')
-time.sleep(1)
+# === [Keuze vertakking] === #
 
-# === [kamer 3] === #
+# === [KAMER 6] === #
+if keuze == '6':
+    print('Je duwt de deur open en stapt een nieuwe, muffe kamer binnen.')
+    # De zombie in kamer 6
+    combat("zombie", 1, 0, 2)
+    print('Achter de zombie zie je een deur en je gaat erdoorheen.')
+    print('')
+    time.sleep(1)
+
+# === [KAMER 3] === #
+# Deze kamer wordt dus bereikt via keuze '3' OF na afloop van kamer '6'
+print('Je stapt de lange kamer binnen.')
+print('Deze kamer heeft twee ingangen en is langwerpig.')
 # Kies willekeurig tussen een schild of een zwaard
 item = random.choice(['schild', 'zwaard'])
 
@@ -92,7 +102,6 @@ if item == 'schild':
 elif item == 'zwaard':
     player_attack += 2
 
-print('Je duwt de volgende deur open en stapt een hele lange kamer binnen.')
 print(f'In deze kamer staat een tafel met daarop een {item}.')
 print(f'Je pakt het {item} op en houd het bij je.')
 print('Op naar de volgende deur.')
